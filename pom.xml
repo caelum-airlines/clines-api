@@ -105,6 +105,10 @@
                             <contractPackageRegex>.*airports</contractPackageRegex>
                             <baseClassFQN>br.com.caelum.clines.api.airports.AirportContractTest</baseClassFQN>
                         </baseClassMapping>
+                        <baseClassMapping>
+                            <contractPackageRegex>.*flights</contractPackageRegex>
+                            <baseClassFQN>br.com.caelum.clines.api.flights.FlightContractTest</baseClassFQN>
+                        </baseClassMapping>
                     </baseClassMappings>
 
                     <basePackageForTests>${project.groupId}.clines</basePackageForTests>

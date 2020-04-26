@@ -4,6 +4,7 @@ import br.com.caelum.clines.shared.exceptions.AircraftModelNotFoundException;
 import br.com.caelum.clines.shared.exceptions.LocationNotFoundException;
 import br.com.caelum.clines.shared.exceptions.ResourceAlreadyExistsException;
 import br.com.caelum.clines.shared.exceptions.ResourceNotFoundException;
+import br.com.caelum.clines.shared.exceptions.ViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -75,6 +76,19 @@ public class GlobalExceptionHandler {
 
         var errorView = new ErrorView();
         errorView.addGenericError(message);
+
+        return errorView;
+    }
+
+    @ExceptionHandler(ViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorView handle(ViolationException e) {
+        var errorView = new ErrorView();
+
+        e.getViolations()
+                .stream()
+                .map(Throwable::getMessage)
+                .forEach(errorView::addGenericError);
 
         return errorView;
     }
