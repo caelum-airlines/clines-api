@@ -6,3 +6,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+cors:
+  allowed:
+    origins: ${CORS_HOST:http://localhost:3000}
+    all-methods: true
+    all-headers: true
+    send-credentials: true
