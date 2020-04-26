@@ -1,0 +1,4 @@
+*.md
+.git
+target
+!target/*.jar
