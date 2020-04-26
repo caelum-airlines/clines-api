@@ -1,4 +1,4 @@
-package br.com.caelum.clines.domain;
+package br.com.caelum.clines.shared.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "flights")

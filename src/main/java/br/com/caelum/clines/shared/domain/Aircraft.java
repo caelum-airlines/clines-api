@@ -1,9 +1,8 @@
-package br.com.caelum.clines.domain;
+package br.com.caelum.clines.shared.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,19 +12,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Getter
 @Entity
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-@Table(name = "airports")
-public class Airport {
+@NoArgsConstructor
+@Table(name = "aircraft")
+public class Aircraft {
     @Id
-    @Column(length = 3)
-    @Type(type = "char")
+    @Column(length = 10)
     private String code;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
+    @JoinColumn(name = "model_id")
+    private AircraftModel model;
 }

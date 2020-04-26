@@ -1,4 +1,4 @@
-package br.com.caelum.clines.domain;
+package br.com.caelum.clines.shared.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
