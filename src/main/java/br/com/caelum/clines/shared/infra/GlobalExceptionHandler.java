@@ -1,6 +1,7 @@
 package br.com.caelum.clines.shared.infra;
 
 import br.com.caelum.clines.shared.exceptions.AircraftModelNotFoundException;
+import br.com.caelum.clines.shared.exceptions.LocationNotFoundException;
 import br.com.caelum.clines.shared.exceptions.ResourceAlreadyExistsException;
 import br.com.caelum.clines.shared.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,19 @@ public class GlobalExceptionHandler {
                 .forEach(f -> errorView.addFieldError(f.getField(), f.getDefaultMessage()));
 
         log.info("[VALIDATION_ERROR] {}", errorView);
+
+        return errorView;
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorView handle(LocationNotFoundException e) {
+        var message = e.getMessage();
+
+        log.info("[LOCATION_NOT_FOUND] {}", message);
+
+        var errorView = new ErrorView();
+        errorView.addGenericError(message);
 
         return errorView;
     }
