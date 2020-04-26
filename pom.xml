@@ -16,7 +16,21 @@
 
     <properties>
         <java.version>11</java.version>
+        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
     <dependencies>
         <dependency>
@@ -56,6 +70,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-contract-pact</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -63,6 +87,41 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>2.2.2.RELEASE</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <testFramework>JUNIT5</testFramework>
+
+                    <baseClassMappings>
+                        <baseClassMapping>
+                            <contractPackageRegex>.*aircraft</contractPackageRegex>
+                            <baseClassFQN>br.com.caelum.clines.api.aircraft.AircraftContractTest</baseClassFQN>
+                        </baseClassMapping>
+                    </baseClassMappings>
+
+                    <basePackageForTests>${project.groupId}.clines</basePackageForTests>
+
+                </configuration>
+                <executions>
+
+                    <execution>
+                        <id>publish-to-repository</id>
+                        <configuration>
+                            <contractsRepositoryUrl>git://https://github.com/caelum-airlines/contracts.git</contractsRepositoryUrl>
+                            <contractsRepositoryUsername>${env.GITHUB_TOKEN}</contractsRepositoryUsername>
+                            <contractsRepositoryPassword>x-oauth-basic</contractsRepositoryPassword>
+                        </configuration>
+
+                        <phase>install</phase>
+                        <goals>
+                            <goal>pushStubsToScm</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
