@@ -24,14 +24,10 @@ public class Location {
     private Long id;
 
     @NotNull
-    @Type(type = "char")
-    @Column(length = 2)
     @Enumerated(EnumType.STRING)
     private Country country;
 
     @NotNull
-    @Type(type = "char")
-    @Column(length = 2)
     private String state;
 
     @NotNull
