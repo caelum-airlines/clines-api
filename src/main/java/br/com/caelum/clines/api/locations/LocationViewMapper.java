@@ -9,6 +9,6 @@ public class LocationViewMapper implements Mapper<Location, LocationView> {
     @Override
     public LocationView map(Location source) {
         var country = source.getCountry();
-        return new LocationView(country.getDescription(), source.getState(), source.getCity());
+        return new LocationView(source.getId(), country.getDescription(), source.getState(), source.getCity());
     }
 }
