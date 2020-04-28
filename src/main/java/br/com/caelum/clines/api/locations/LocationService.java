@@ -1,5 +1,6 @@
 package br.com.caelum.clines.api.locations;
 
+import br.com.caelum.clines.shared.domain.Country;
 import br.com.caelum.clines.shared.exceptions.ResourceAlreadyExistsException;
 import br.com.caelum.clines.shared.exceptions.LocationNotFoundException;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,8 @@ public class LocationService {
 
 
     public Long createLocationBy(LocationForm form) {
-        repository.findById(form.getId())
+
+        repository.findByCountryAndStateAndCity(Country.findByDescription(form.getCountry()), form.getState(), form.getCity())
                 .ifPresent(location -> {
                     throw new ResourceAlreadyExistsException("Location already exists");
                 });

@@ -1,6 +1,9 @@
 package br.com.caelum.clines.shared.domain;
 
 
+import org.jetbrains.annotations.NotNull;
+import org.springframework.util.Assert;
+
 public enum Country {
     AF("Afghanistan"),
     AX("Aland Islands"),
@@ -263,5 +266,15 @@ public enum Country {
 
     public String getDescription() {
         return description;
+    }
+
+    public static Country findByDescription(String description) {
+        Assert.notNull(description, "Description cannot be null");
+        for (Country value : values()) {
+            if(value.getDescription().equals(description)) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("Country " + description + " not found.");
     }
 }
