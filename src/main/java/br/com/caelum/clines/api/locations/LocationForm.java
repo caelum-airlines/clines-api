@@ -1,5 +1,6 @@
 package br.com.caelum.clines.api.locations;
 
+import br.com.caelum.clines.shared.domain.Country;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -10,8 +11,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Getter
 public class LocationForm {
-
-    @NotNull
     private Long id;
 
     @NotBlank
@@ -19,4 +18,7 @@ public class LocationForm {
 
     @NotBlank
     private String city;
+
+    @NotBlank
+    private String country;
 }
