@@ -2,7 +2,7 @@ package br.com.caelum.clines.api.locations;
 
 import br.com.caelum.clines.shared.domain.Country;
 import br.com.caelum.clines.shared.domain.Location;
-import br.com.caelum.clines.shared.exceptions.LocationNotFoundException;
+import br.com.caelum.clines.shared.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,7 +53,7 @@ class LocationServiceTest {
     @Test
     public void shouldThrowExceptionIfLocationDoesNotExists() {
         assertThrows(
-                LocationNotFoundException.class,
+                ResourceNotFoundException.class,
                 () -> service.showLocationBy(1L)
         );
     }
