@@ -1,4 +1,4 @@
-package br.com.caelum.clines.api.airports;
+package br.com.caelum.clines.api.locations;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
