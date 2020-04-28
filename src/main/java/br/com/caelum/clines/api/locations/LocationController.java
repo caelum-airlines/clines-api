@@ -1,27 +1,26 @@
 package br.com.caelum.clines.api.locations;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
 import static org.springframework.http.ResponseEntity.created;
 
-@Controller
+@RestController
+@RequestMapping("locations")
+@AllArgsConstructor
 public class LocationController {
 
     private final LocationService service;
 
-    @Autowired
-    public LocationController(LocationService service) {
-        this.service = service;
-    }
-
-    public ResponseEntity<?> createBy(LocationForm form) {
+    public ResponseEntity<> createBy(LocationForm form) {
         Long code = service.createLocationBy(form);
 
-        URI uri = URI.create("/location/").resolve(code.toString());
+        URI uri = URI.create("/location/")
+                .resolve(code.toString());
 
         return created(uri).build();
     }
