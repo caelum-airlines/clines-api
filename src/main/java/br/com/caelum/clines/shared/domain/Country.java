@@ -1,7 +1,5 @@
 package br.com.caelum.clines.shared.domain;
 
-
-import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
 public enum Country {

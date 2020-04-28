@@ -11,14 +11,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Getter
 public class LocationForm {
-    private Long id;
+    @NotBlank
+    private String country;
 
     @NotBlank
     private String state;
 
     @NotBlank
     private String city;
-
-    @NotBlank
-    private String country;
 }

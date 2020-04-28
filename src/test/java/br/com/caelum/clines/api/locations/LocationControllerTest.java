@@ -29,7 +29,7 @@ class LocationControllerTest {
     @Test
     public void shouldReturnHttpStatus201AndHeaderAttributeLocationWhenValidFormIsInformed() {
         Long locationId = 1L;
-        LocationForm locationForm = new LocationForm(locationId, "São Paulo", "Osasco", Country.BR.getDescription());
+        LocationForm locationForm = new LocationForm(Country.BR.getDescription(), "São Paulo", "Osasco");
         when(service.createLocationBy(eq(locationForm))).thenReturn(locationId);
 
         ResponseEntity<?>  responseEntity = locationController.createBy(locationForm);
