@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AircraftModelFormMapperTest {
-    private static final Long INPUT_AIRCRAFT_MODEL_ID = 1L;
     private static final String INPUT_AIRCRAFT_MODEL_DESCRIPTION = "Boeing 836";
     private AircraftModelFormMapper mapper = new AircraftModelFormMapper();
 
