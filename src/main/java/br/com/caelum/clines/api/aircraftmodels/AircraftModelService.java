@@ -1,9 +1,6 @@
 package br.com.caelum.clines.api.aircraftmodels;
 
-import br.com.caelum.clines.api.aircraft.AircraftFormMapper;
-import br.com.caelum.clines.api.aircraft.AircraftRepository;
-import br.com.caelum.clines.api.aircraft.AircraftViewMapper;
-import br.com.caelum.clines.api.aircraft.ExistingAircraftModelService;
+import br.com.caelum.clines.api.aircraft.*;
 import br.com.caelum.clines.shared.domain.AircraftModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +15,10 @@ import static java.util.stream.Collectors.toList;
 public class AircraftModelService {
 
     private final AircraftModelRepository repository;
-//    private final ExistingAircraftModelService modelService;
     private final AircraftModelViewMapper viewMapper;
-//    private final AircraftModelFormMapper formMapper;
 
     public List<AircraftModelView> listAllAircraftModels() {
         return repository.findAll().stream().map(viewMapper::map).collect(toList());
     }
+
 }

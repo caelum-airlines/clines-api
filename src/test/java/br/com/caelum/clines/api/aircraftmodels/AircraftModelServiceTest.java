@@ -1,15 +1,13 @@
 package br.com.caelum.clines.api.aircraftmodels;
 
-import br.com.caelum.clines.api.aircraft.AircraftRepository;
-import br.com.caelum.clines.shared.domain.Aircraft;
 import br.com.caelum.clines.shared.domain.AircraftModel;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,10 +16,13 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.only;
 
 @ExtendWith(MockitoExtension.class)
-public class AircraftModelServiceTest {
+class AircraftModelServiceTest {
 
-    private static final AircraftModel DEFAULT_AIRCRAFT_MODEL = new AircraftModel("Description");
-    private static final List<AircraftModel> ALL_AIRCRAFT_MODELS = List.of(DEFAULT_AIRCRAFT_MODEL);
+    private static final AircraftModel DEFAULT_AIRCRAFT_MODEL = new AircraftModel();
+    private static final List<AircraftModel> ALL_AIRCRAFT_MODEL = List.of(DEFAULT_AIRCRAFT_MODEL);
+
+    @Spy
+    private AircraftModelViewMapper viewMapper;
 
     @Mock
     private AircraftModelRepository repository;
@@ -30,13 +31,21 @@ public class AircraftModelServiceTest {
     private AircraftModelService service;
 
     @Test
-    public void shouldReturnAListOfAircraftModelViewForEachAircraftInRepository() {
-        given(repository.findAll()).willReturn(ALL_AIRCRAFT_MODELS);
+    void shouldReturnAListOfAircraftModelViewForEachAircraftInRepository() {
+        given(repository.findAll()).willReturn(ALL_AIRCRAFT_MODEL);
 
         var allAircraftModelViews = service.listAllAircraftModels();
+        assertEquals(ALL_AIRCRAFT_MODEL.size(), allAircraftModelViews.size());
 
+    }
+
+    @Test
+    void shouldReturnAnEmptyListWhenHasNoAircraftModelInRepository() {
+        given(repository.findAll()).willReturn(List.of());
+        var allAircraftModelViews = service.listAllAircraftModels();
+
+        assertEquals(0, allAircraftModelViews.size());
         then(repository).should(only()).findAll();
-
-        assertEquals(ALL_AIRCRAFT_MODELS.size(), allAircraftModelViews.size());
+        then(viewMapper).shouldHaveNoInteractions();
     }
 }
