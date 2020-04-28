@@ -16,13 +16,16 @@ public class LocationService {
 
 
     public Long createLocationBy(LocationForm form) {
-
         repository.findByCountryAndStateAndCity(Country.findByDescription(form.getCountry()), form.getState(), form.getCity())
-                .ifPresent(location -> {
+                .ifPresent(existingLocation -> {
                     throw new ResourceAlreadyExistsException("Location already exists");
                 });
 
-        return null;
+        var location = formMapper.map(form);
+
+        repository.save(location);
+
+        return location.getId();
     }
 
     public LocationView showLocationBy(Long id) {

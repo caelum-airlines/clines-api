@@ -20,6 +20,7 @@ import java.util.Objects;
 @Getter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "locations")
 public class Location {
     @Id
