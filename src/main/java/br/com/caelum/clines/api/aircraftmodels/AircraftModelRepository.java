@@ -10,4 +10,5 @@ public interface AircraftModelRepository extends Repository<AircraftModel, Long>
     void save(AircraftModel aircraftModel);
 
     Optional<AircraftModel> findByDescription(String description);
+    Optional<AircraftModel> findById(Long id);
 }
