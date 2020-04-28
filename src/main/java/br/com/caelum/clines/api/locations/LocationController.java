@@ -16,7 +16,7 @@ public class LocationController {
 
     private final LocationService service;
 
-    public ResponseEntity<> createBy(LocationForm form) {
+    public ResponseEntity<?> createBy(LocationForm form) {
         Long code = service.createLocationBy(form);
 
         URI uri = URI.create("/location/")
