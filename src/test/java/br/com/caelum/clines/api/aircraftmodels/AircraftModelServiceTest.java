@@ -18,7 +18,7 @@ import static org.mockito.Mockito.only;
 @ExtendWith(MockitoExtension.class)
 class AircraftModelServiceTest {
 
-    private static final AircraftModel DEFAULT_AIRCRAFT_MODEL = new AircraftModel();
+    private static final AircraftModel DEFAULT_AIRCRAFT_MODEL = new AircraftModel( "Description");
     private static final List<AircraftModel> ALL_AIRCRAFT_MODEL = List.of(DEFAULT_AIRCRAFT_MODEL);
 
     @Spy

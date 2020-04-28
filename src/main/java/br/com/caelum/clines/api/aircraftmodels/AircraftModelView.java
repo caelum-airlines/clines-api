@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AircraftModelView {
-
+    private String description;
 }
