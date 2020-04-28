@@ -31,7 +31,7 @@ public class AirportContractTest {
     private AirportRepository repository;
 
     @Spy
-    private LocationViewMapper locationViewMapper;
+    private AirportLocationViewMapper airportLocationViewMapper;
 
     @InjectMocks
     private AirportViewMapper viewMapper;

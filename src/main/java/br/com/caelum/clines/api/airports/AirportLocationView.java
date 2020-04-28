@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class LocationView {
+public class AirportLocationView {
     private String country;
     private String state;
     private String city;

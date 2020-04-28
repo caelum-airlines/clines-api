@@ -5,10 +5,10 @@ import br.com.caelum.clines.shared.infra.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LocationViewMapper implements Mapper<Location, LocationView> {
+public class AirportLocationViewMapper implements Mapper<Location, AirportLocationView> {
     @Override
-    public LocationView map(Location source) {
+    public AirportLocationView map(Location source) {
         var country = source.getCountry();
-        return new LocationView(country.getDescription(), source.getState(), source.getCity());
+        return new AirportLocationView(country.getDescription(), source.getState(), source.getCity());
     }
 }
