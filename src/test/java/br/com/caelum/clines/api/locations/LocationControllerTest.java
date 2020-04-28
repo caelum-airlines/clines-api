@@ -1,5 +1,6 @@
 package br.com.caelum.clines.api.locations;
 
+import br.com.caelum.clines.shared.domain.Country;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +29,7 @@ class LocationControllerTest {
     @Test
     public void shouldReturnHttpStatus201AndHeaderAttributeLocationWhenValidFormIsInformed() {
         Long locationId = 1L;
-        LocationForm locationForm = new LocationForm(locationId, "São Paulo", "Osasco");
+        LocationForm locationForm = new LocationForm(locationId, "São Paulo", "Osasco", Country.BR.getDescription());
         when(service.createLocationBy(eq(locationForm))).thenReturn(locationId);
 
         ResponseEntity<?>  responseEntity = locationController.createBy(locationForm);
