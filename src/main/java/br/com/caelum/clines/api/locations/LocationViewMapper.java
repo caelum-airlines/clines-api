@@ -1,4 +1,4 @@
-package br.com.caelum.clines.api.airports;
+package br.com.caelum.clines.api.locations;
 
 import br.com.caelum.clines.shared.domain.Location;
 import br.com.caelum.clines.shared.infra.Mapper;

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AircraftModelViewMapper implements Mapper<AircraftModel, AircraftModelView> {
 
+    @Override
     public AircraftModelView map(AircraftModel source) {
-        return new AircraftModelView(source.getDescription());
+        var id = source.getId();
+        var description = source.getDescription();
+        return new AircraftModelView(id, description);
     }
 }

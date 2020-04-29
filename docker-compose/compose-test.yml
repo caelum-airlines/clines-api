@@ -4,5 +4,6 @@ services:
   database:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: clines
+      POSTGRES_DB: clines_test
+    ports:
+    - "5432:5432"

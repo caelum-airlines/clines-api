@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+public class AircraftModelViewMapperTest {
 
-class AircraftModelViewMapperTest {
-    private static final String AIRCRAFT_DESCRIPTION = "abc";
+    private static final Long AIRCRAFT_CODE = 1l;
+    private static final String AIRCRAFT_DESCRIPTION = "BOEING 767";
+
+    private static final AircraftModel AIRCRAFT_MODEL = new AircraftModel(AIRCRAFT_CODE, AIRCRAFT_DESCRIPTION);
 
     private AircraftModelViewMapper mapper = new AircraftModelViewMapper();
 
@@ -19,5 +22,12 @@ class AircraftModelViewMapperTest {
 
         assertEquals(AIRCRAFT_DESCRIPTION, aircraftModelView.getDescription());
     }
-}
 
+    @Test
+    void shouldConvertAircraftModelToAircraftModelView() {
+        var aircraftModelView = mapper.map(AIRCRAFT_MODEL);
+
+        assertEquals(AIRCRAFT_CODE, aircraftModelView.getId());
+        assertEquals(AIRCRAFT_DESCRIPTION, aircraftModelView.getDescription());
+    }
+}
