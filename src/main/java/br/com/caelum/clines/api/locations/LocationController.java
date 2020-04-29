@@ -12,6 +12,11 @@ import java.net.URI;
 
 import static org.springframework.http.ResponseEntity.created;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("location")
 @AllArgsConstructor
@@ -27,5 +32,15 @@ public class LocationController {
                 .resolve(code.toString());
 
         return created(uri).build();
+    }
+
+    @GetMapping
+    public List<LocationView> list() {
+        return service.listAllLocations();
+    }
+
+    @GetMapping("{id}")
+    public LocationView show(@PathVariable("id") long id) {
+        return service.showLocationBy(id);
     }
 }
