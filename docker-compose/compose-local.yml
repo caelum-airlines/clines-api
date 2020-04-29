@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  database:
+    image: postgres
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+  api:
+    image: caelum/clines-api
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      DB_HOST: database
+      JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+
+volumes:
+  db-volume:
