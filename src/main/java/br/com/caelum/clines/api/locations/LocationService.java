@@ -1,6 +1,6 @@
 package br.com.caelum.clines.api.locations;
 
-import br.com.caelum.clines.shared.exceptions.LocationNotFoundException;
+import br.com.caelum.clines.shared.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class LocationService {
         return repository.findById(id)
                 .map(viewMapper::map)
                 .orElseThrow(() ->
-                        new LocationNotFoundException("Cannot find location")
+                        new ResourceNotFoundException("Cannot find location")
                 );
     }
 }
