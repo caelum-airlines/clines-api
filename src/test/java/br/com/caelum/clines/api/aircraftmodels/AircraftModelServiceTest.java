@@ -27,6 +27,9 @@ public class AircraftModelServiceTest {
    @Spy
    private AircraftModelFormMapper formMapper;
 
+   @Spy
+   private AircraftModelViewMapper viewMapper;
+
    @Mock
    private AircraftModelRepository repository;
 
@@ -46,6 +49,7 @@ public class AircraftModelServiceTest {
       then(repository).should().save(AIRCRAFT_MODEL);
       then(formMapper).should(only()).map(AIRCRAFT_MODEL_FORM);
    }
+
     @Test
    void shouldThrowResourceAlreadyExistsIfAircraftModelAlreadyExists() {
       given(repository.findByDescription(AIRCRAFT_MODEL_DESCRIPTION)).willReturn(Optional.of(AIRCRAFT_MODEL));
@@ -54,5 +58,19 @@ public class AircraftModelServiceTest {
               () -> {
                  service.createAircraftModelBy(AIRCRAFT_MODEL_FORM);
               });
+   }
+
+   @Test
+   void shouldReturnSingleAnAircraftModelViewWhenExistingInRepository() {
+      given(repository.findById(AIRCRAFT_MODEL_ID)).willReturn(Optional.of(AIRCRAFT_MODEL));
+
+      var aircraftModelView = service.showAircraftModelBy(AIRCRAFT_MODEL_ID);
+
+      then(formMapper).shouldHaveNoInteractions();
+      then(repository).should(only()).findById(AIRCRAFT_MODEL_ID);
+      then(viewMapper).should(only()).map(AIRCRAFT_MODEL);
+
+      assertEquals(AIRCRAFT_MODEL_ID, aircraftModelView.getId());
+      assertEquals(AIRCRAFT_MODEL_DESCRIPTION, aircraftModelView.getDescription());
    }
 }
