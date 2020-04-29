@@ -41,7 +41,6 @@ class AircraftControllerTest {
         entityManager.persist(BOEING);
     }
 
-
     @Test
     void shouldReturn404WhenNotExistAircraftByCode() throws Exception {
         mockMvc.perform(get("/aircraft/ASDF1234"))
