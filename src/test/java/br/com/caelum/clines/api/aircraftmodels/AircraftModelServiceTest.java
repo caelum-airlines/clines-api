@@ -1,6 +1,7 @@
 package br.com.caelum.clines.api.aircraftmodels;
 
 import br.com.caelum.clines.shared.domain.AircraftModel;
+import br.com.caelum.clines.shared.exceptions.ResourceAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -8,8 +9,10 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyObject;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.only;
@@ -33,12 +36,23 @@ public class AircraftModelServiceTest {
    @Test
    void shouldCreateAnAircraftModel() {
       given(formMapper.map(AIRCRAFT_MODEL_FORM)).willReturn(AIRCRAFT_MODEL);
+      given(repository.findByDescription(AIRCRAFT_MODEL_DESCRIPTION)).willReturn(Optional.empty());
 
       var aircraftModel = service.createAircraftModelBy(AIRCRAFT_MODEL_FORM);
 
-      assertEquals(AIRCRAFT_MODEL_ID, AIRCRAFT_MODEL.getId());
+      assertEquals(AIRCRAFT_MODEL_ID, aircraftModel);
 
-      then(repository).should(only()).save(AIRCRAFT_MODEL);
+      then(repository).should().findByDescription(AIRCRAFT_MODEL_DESCRIPTION);
+      then(repository).should().save(AIRCRAFT_MODEL);
       then(formMapper).should(only()).map(AIRCRAFT_MODEL_FORM);
+   }
+    @Test
+   void shouldThrowResourceAlreadyExistsIfAircraftModelAlreadyExists() {
+      given(repository.findByDescription(AIRCRAFT_MODEL_DESCRIPTION)).willReturn(Optional.of(AIRCRAFT_MODEL));
+
+      assertThrows(ResourceAlreadyExistsException.class,
+              () -> {
+                 service.createAircraftModelBy(AIRCRAFT_MODEL_FORM);
+              });
    }
 }
