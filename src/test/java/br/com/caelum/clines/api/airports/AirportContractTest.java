@@ -1,6 +1,5 @@
 package br.com.caelum.clines.api.airports;
 
-import br.com.caelum.clines.api.locations.LocationViewMapper;
 import br.com.caelum.clines.shared.domain.Airport;
 import br.com.caelum.clines.shared.domain.Country;
 import br.com.caelum.clines.shared.domain.Location;
@@ -32,7 +31,7 @@ public class AirportContractTest {
     private AirportRepository repository;
 
     @Spy
-    private LocationViewMapper locationViewMapper;
+    private AircraftLocationViewMapper locationViewMapper;
 
     @InjectMocks
     private AirportViewMapper viewMapper;

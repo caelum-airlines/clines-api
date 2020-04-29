@@ -8,5 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AirportView {
     private String code;
-    private LocationView location;
+    private AircraftLocationView location;
 }
