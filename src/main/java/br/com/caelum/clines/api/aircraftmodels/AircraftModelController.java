@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 import static org.springframework.http.ResponseEntity.created;
 
@@ -22,6 +23,11 @@ public class AircraftModelController {
         var uri = URI.create("/aircraft-model/").resolve(String.valueOf(id));
 
         return created(uri).build();
+    }
+    
+    @GetMapping
+    List<AircraftModelView> list() {
+        return service.listAllAircraftModels();
     }
 
     @GetMapping("{id}")

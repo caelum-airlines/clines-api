@@ -15,6 +15,15 @@ public class AircraftModelViewMapperTest {
     private AircraftModelViewMapper mapper = new AircraftModelViewMapper();
 
     @Test
+    void shouldConvertAircraftModelToAircrafModeltView() {
+        var aircraftModel = new AircraftModel(AIRCRAFT_DESCRIPTION);
+
+        var aircraftModelView = mapper.map(aircraftModel);
+
+        assertEquals(AIRCRAFT_DESCRIPTION, aircraftModelView.getDescription());
+    }
+
+    @Test
     void shouldConvertAircraftModelToAircraftModelView() {
         var aircraftModelView = mapper.map(AIRCRAFT_MODEL);
 

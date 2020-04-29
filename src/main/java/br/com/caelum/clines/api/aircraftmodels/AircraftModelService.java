@@ -5,6 +5,10 @@ import br.com.caelum.clines.shared.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
 @Service
 @AllArgsConstructor
 public class AircraftModelService {
@@ -22,6 +26,10 @@ public class AircraftModelService {
         repository.save(aircraftModel);
 
         return aircraftModel.getId();
+    }
+    
+    public List<AircraftModelView> listAllAircraftModels() {
+        return repository.findAll().stream().map(viewMapper::map).collect(toList());
     }
 
     public AircraftModelView showAircraftModelBy(Long aircraftModelId) {
