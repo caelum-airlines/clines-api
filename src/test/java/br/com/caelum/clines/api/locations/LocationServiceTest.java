@@ -59,7 +59,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void shouldListAllLocations() {
+    void listAllLocationsShouldReturnAListWithAllLocations() {
         Location location1 = new Location(Country.BR, "SAO PAULO", "SAO PAULO");
         Location location2 = new Location(Country.BR, "SAO PAULO", "CAMPINAS");
         List<Location> locations = List.of(location1, location2);
@@ -82,7 +82,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void shouldAnEmptyList() {
+    void listAllLocationsShouldReturnAnEmptyList() {
         given(repository.findAll()).willReturn(Collections.emptyList());
 
         List<LocationView> locationViews = service.listAllLocations();

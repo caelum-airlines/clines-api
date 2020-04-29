@@ -33,7 +33,7 @@ public class LocationControllerTest {
     private Gson gson = new Gson();
 
     @Test
-    public void shouldReturnListOfLocations() throws Exception {
+    public void listAllLocationsShouldReturnListOfLocations() throws Exception {
         LocationView location1 = new LocationView(1L, Country.BR.name(), "SAO PAULO", "SAO PAULO");
         LocationView location2 = new LocationView(2L, Country.BR.name(), "SAO PAULO", "CAMPINAS");
         List<LocationView> locations = List.of(location2, location1);
@@ -48,7 +48,7 @@ public class LocationControllerTest {
     }
 
     @Test
-    public void shouldReturnAnEmptyList() throws Exception {
+    public void listAllLocationsShouldReturnAnEmptyList() throws Exception {
         List<LocationView> locations = Collections.emptyList();
         given(locationService.listAllLocations()).willReturn(locations);
 
