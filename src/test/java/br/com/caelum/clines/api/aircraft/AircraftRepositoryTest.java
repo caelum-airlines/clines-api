@@ -64,14 +64,14 @@ class AircraftRepositoryTest {
 
     @Test
     void shouldSaveANewAircraft() {
-        assertNull(entityManager.find(Aircraft.class, 1L));
-
         var aircraft = new Aircraft(AIRCRAFT_CODE, BOEING);
+
+        assertNull(aircraft.getId());
+
         repository.save(aircraft);
 
         assertNotNull(aircraft.getId());
 
-        assertEquals(1L, aircraft.getId());
         assertEquals(AIRCRAFT_CODE, aircraft.getCode());
         assertEquals(BOEING, aircraft.getModel());
     }
