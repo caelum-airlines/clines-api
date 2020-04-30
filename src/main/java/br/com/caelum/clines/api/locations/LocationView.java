@@ -8,7 +8,10 @@ import lombok.Getter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class LocationView {
+    private Long id;
     private String country;
+
     private String state;
+
     private String city;
 }
