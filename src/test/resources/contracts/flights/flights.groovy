@@ -3,7 +3,7 @@ import org.springframework.cloud.contract.spec.Contract
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-final BASE_URL = "flights"
+final BASE_URL = "/flights"
 
 final EXISTING_FLIGHT_ID = 1
 final NON_EXISTING_FLIGHT_ID = 2
@@ -30,7 +30,7 @@ final NEGATIVE_FLIGHT_PRICE = new Random().doubles(1, -1000, 0).findFirst().orEl
             request {
                 method GET()
 
-                url "/${BASE_URL}/${NON_EXISTING_FLIGHT_ID}"
+                url "${BASE_URL}/${NON_EXISTING_FLIGHT_ID}"
             }
 
             response {
@@ -48,7 +48,7 @@ final NEGATIVE_FLIGHT_PRICE = new Random().doubles(1, -1000, 0).findFirst().orEl
             request {
                 method GET()
 
-                url "/${BASE_URL}/${EXISTING_FLIGHT_ID}"
+                url "${BASE_URL}/${EXISTING_FLIGHT_ID}"
             }
 
             response {
@@ -72,7 +72,7 @@ final NEGATIVE_FLIGHT_PRICE = new Random().doubles(1, -1000, 0).findFirst().orEl
                         ],
                         "price"    : value(anyDouble()),
                         "aircraft" : [
-                                code   : "AC123AX",
+                                code   : EXISTING_AIRCRAFT_ID,
                                 "model": [
                                         "id"         : 1,
                                         "description": "Boeing 737 800"
@@ -113,7 +113,7 @@ final NEGATIVE_FLIGHT_PRICE = new Random().doubles(1, -1000, 0).findFirst().orEl
                                         "gate": "12B"
                                 ],
                                 "aircraft" : [
-                                        code   : "AC123AX",
+                                        code   : EXISTING_AIRCRAFT_ID,
                                         "model": [
                                                 "id"         : 1,
                                                 "description": "Boeing 737 800"
@@ -155,7 +155,7 @@ final NEGATIVE_FLIGHT_PRICE = new Random().doubles(1, -1000, 0).findFirst().orEl
                 status CREATED()
 
                 headers {
-                    header(location(), "/${BASE_URL}/${NON_EXISTING_FLIGHT_ID}")
+                    header(location(), "${BASE_URL}/${NON_EXISTING_FLIGHT_ID}")
                 }
 
                 bodyMatchers {
