@@ -8,6 +8,11 @@ language: java
 
 install: skip
 
+stages:
+  - test
+  - package
+  - install
+
 jobs:
   include:
     - stage: test
@@ -17,3 +22,8 @@ jobs:
     - stage: package
       name: "Packaging"
       script: "make package"
+
+    - stage: install
+      if: branch = master
+      name: "Installing"
+      script: "make install"

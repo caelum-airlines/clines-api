@@ -27,6 +27,10 @@ test:
 psql:
 	@ make _docker-compose stage=local command='exec database psql -U postgres'
 
+install:
+	$(info Installing contracts)
+	@ ./mvnw versions:set -DnewVersion=$$TRAVIS_BUILD_ID
+	@ ./mvnw install -DskipTests
 
 _docker-compose:
 ifeq ($(ENV), local)
