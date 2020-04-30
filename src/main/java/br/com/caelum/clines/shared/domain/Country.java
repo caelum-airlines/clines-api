@@ -1,5 +1,8 @@
 package br.com.caelum.clines.shared.domain;
 
+import org.springframework.util.Assert;
+
+import java.util.EnumSet;
 
 public enum Country {
     AF("Afghanistan"),
@@ -263,5 +266,13 @@ public enum Country {
 
     public String getDescription() {
         return description;
+    }
+
+    public static Country findByDescription(String description) {
+        return EnumSet.allOf(Country.class)
+                .stream()
+                .filter(country -> country.getDescription().equals(description))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Country " + description + " not found."));
     }
 }

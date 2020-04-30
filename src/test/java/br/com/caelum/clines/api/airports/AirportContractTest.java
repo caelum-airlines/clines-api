@@ -42,7 +42,6 @@ public class AirportContractTest {
     @Mock(lenient = true)
     private ExistingLocationService locationService;
 
-
     @BeforeEach
     void setup() {
 
