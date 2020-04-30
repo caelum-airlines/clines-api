@@ -2,6 +2,8 @@ package br.com.caelum.clines.shared.domain;
 
 import org.springframework.util.Assert;
 
+import java.util.EnumSet;
+
 public enum Country {
     AF("Afghanistan"),
     AX("Aland Islands"),
@@ -267,12 +269,10 @@ public enum Country {
     }
 
     public static Country findByDescription(String description) {
-        Assert.notNull(description, "Description cannot be null");
-        for (Country value : values()) {
-            if(value.getDescription().equals(description)) {
-                return value;
-            }
-        }
-        throw new IllegalArgumentException("Country " + description + " not found.");
+        return EnumSet.allOf(Country.class)
+                .stream()
+                .filter(country -> country.getDescription().equals(description))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Country " + description + " not found."));
     }
 }
