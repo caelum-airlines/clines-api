@@ -11,8 +11,8 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.Calendar;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -29,8 +29,10 @@ class PromotionalCodeRepositoryTest {
 
     @Test
     void shouldSaveNewPromotionalCode() {
-        var start = Calendar.getInstance().getTime();
-        var expiration = Calendar.getInstance().getTime();
+        var calendar = Calendar.getInstance();
+        var start = calendar.getTime();
+        calendar.add(Calendar.MONTH, 1);
+        var expiration = calendar.getTime();
 
         var promotionalCode = new PromotionalCode("CODE", start, expiration, "DESCRIPTION", 10);
 
