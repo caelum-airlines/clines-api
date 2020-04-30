@@ -1,0 +1,19 @@
+cache:
+  directories:
+    - $HOME/.m2
+
+services: docker
+
+language: java
+
+install: skip
+
+jobs:
+  include:
+    - stage: test
+      name: "Testing"
+      script: "make test"
+
+    - stage: package
+      name: "Packaging"
+      script: "make package"
