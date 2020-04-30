@@ -2,12 +2,7 @@ package br.com.caelum.clines.api.flights;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -28,7 +23,10 @@ public class FlightController {
     }
 
     @GetMapping
-    List<FlightView> list() {
+    List<FlightView> list(@RequestParam(value = "date", required = false) String date,
+                          @RequestParam(value = "airport_code", required = false) String airport_code) {
+
+
         return services.listAllFlights();
     }
 

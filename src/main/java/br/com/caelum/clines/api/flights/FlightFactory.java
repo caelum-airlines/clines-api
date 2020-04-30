@@ -5,6 +5,7 @@ import br.com.caelum.clines.shared.exceptions.AircraftNotFoundException;
 import br.com.caelum.clines.shared.exceptions.AirportNotFoundException;
 import br.com.caelum.clines.shared.exceptions.ViolationException;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

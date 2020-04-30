@@ -21,6 +21,10 @@ public class FlightService {
         return repository.findById(id).map(viewFactory::factory).orElseThrow(() -> new ResourceNotFoundException("Cannot find flight"));
     }
 
+    public List<FlightView> searchFlightBy(String date, String airportCode) {
+        return repository.findAllByDateAndAirportCode(date, airportCode).stream().map(viewFactory::factory).collect(toList());
+    }
+
     public List<FlightView> listAllFlights() {
         return repository.findAll().stream().map(viewFactory::factory).collect(toList());
     }
