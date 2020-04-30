@@ -1,4 +1,4 @@
-JAR ?= ./target/clines-api-0.0.1-SNAPSHOT.jar
+JAR ?= ./target/clines-api-0.0.7-SNAPSHOT.jar
 ENV ?= local
 
 package:
