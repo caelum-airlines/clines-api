@@ -2,13 +2,11 @@ package br.com.caelum.clines.api.aircraftmodels;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 import static org.springframework.http.ResponseEntity.created;
 
@@ -25,5 +23,15 @@ public class AircraftModelController {
         var uri = URI.create("/aircraft-model/").resolve(String.valueOf(id));
 
         return created(uri).build();
+    }
+    
+    @GetMapping
+    List<AircraftModelView> list() {
+        return service.listAllAircraftModels();
+    }
+
+    @GetMapping("{id}")
+    AircraftModelView show(@PathVariable Long id) {
+        return service.showAircraftModelBy(id);
     }
 }

@@ -10,6 +10,8 @@ import lombok.Getter;
 public class LocationView {
     private Long id;
     private String country;
+
     private String state;
+
     private String city;
 }
