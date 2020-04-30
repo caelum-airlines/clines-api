@@ -33,4 +33,12 @@ public class PromotionalCode {
 
     @NotNull
     private Integer discount;
+
+    public PromotionalCode(String code, Date startDate, Date expirationDate, String description, int discount) {
+        this.code = code;
+        this.startDate = startDate;
+        this.expirationDate = expirationDate;
+        this.description = description;
+        this.discount = discount;
+    }
 }
