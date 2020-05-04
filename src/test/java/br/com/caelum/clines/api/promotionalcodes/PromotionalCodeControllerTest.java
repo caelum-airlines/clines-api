@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestEntityManager
 @Transactional
 public class PromotionalCodeControllerTest {
+    String promotionalCodeJson = "{ \"code\": \"B2CC71\", \"startDate\": \"2020-02-02\", \"expirationDate\": \"2020-03-03\", \"description\": \"Utilize este código promocional para ganhar 10% de desconto\", \"discount\": 10 }";
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,8 +34,6 @@ public class PromotionalCodeControllerTest {
 
     @Test
     public void shouldReturnHttpStatus201AndHeaderAttributeLocationWhenValidFormIsInformed() throws Exception {
-        String promotionalCodeJson = "{ \"code\": \"B2CC71\", \"startDate\": \"2020-02-02\", \"expirationDate\": \"2020-03-03\", \"description\": \"Utilize este código promocional para ganhar 10% de desconto\", \"discount\": 10 }";
-
         mockMvc.perform(post("/promotional-code/").contentType(MediaType.APPLICATION_JSON).content(promotionalCodeJson))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("location"));
@@ -46,8 +45,6 @@ public class PromotionalCodeControllerTest {
         var expiration = LocalDate.now().plusMonths(1);
         var promotionalCode = new PromotionalCode("B2CC71", start, expiration, "DESCRIPTION", 10);
         entityManager.persist(promotionalCode);
-
-        String promotionalCodeJson = "{ \"code\": \"B2CC71\", \"startDate\": \"2020-02-02\", \"expirationDate\": \"2020-03-03\", \"description\": \"Utilize este código promocional para ganhar 10% de desconto\", \"discount\": 10 }";
 
         mockMvc.perform(post("/promotional-code/").contentType(MediaType.APPLICATION_JSON).content(promotionalCodeJson))
                 .andExpect(status().isConflict());
