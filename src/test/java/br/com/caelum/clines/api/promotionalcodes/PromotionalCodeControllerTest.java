@@ -29,8 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestEntityManager
 @Transactional
 public class PromotionalCodeControllerTest {
-    String promotionalCodeJson = "{ \"code\": \"B2CC71\", \"startDate\": \"2020-02-02\", \"expirationDate\": \"2020-03-03\", \"description\": \"Utilize este código promocional para ganhar 10% de desconto\", \"discount\": 10 }";
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,9 +37,10 @@ public class PromotionalCodeControllerTest {
 
     private final PromotionalCodeBuilder builder = new PromotionalCodeBuilder();
 
-    private String stringify(Object value) throws JsonProcessingException {
-        return JsonMapper.mapper().writeValueAsString(value);
-    }
+    private final String promotionalCodeJson =
+            JsonMapper.stringify(builder.getView("B2CC71"));
+
+    public PromotionalCodeControllerTest() throws JsonProcessingException { }
 
     @Test
     public void shouldReturnHttpStatus201AndHeaderAttributeLocationWhenValidFormIsInformed() throws Exception {
@@ -78,7 +77,7 @@ public class PromotionalCodeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(
                         MockMvcResultMatchers.content()
-                                .json(stringify(list))
+                                .json(JsonMapper.stringify(list))
                 );
     }
 }

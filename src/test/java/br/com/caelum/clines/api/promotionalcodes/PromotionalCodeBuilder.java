@@ -33,6 +33,10 @@ public class PromotionalCodeBuilder {
     }
 
     public PromotionalCodeView getView() {
+        return getView(code);
+    }
+
+    public PromotionalCodeView getView(String code) {
         return new PromotionalCodeView(code, start, expiration, description, discount);
     }
 }

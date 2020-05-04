@@ -73,7 +73,7 @@ class FlightControllerTest {
 
     @Test
     void shouldReturnFlightsWhenSearchByFilters() throws Exception {
-        String response = JsonMapper.mapper().writeValueAsString(List.of(DEFAULT_FLIGHT_VIEW));
+        String response = JsonMapper.stringify(List.of(DEFAULT_FLIGHT_VIEW));
         given(flightService.searchBy(DEFAULT_DATE_TIME, DEFAULT_LOCATION)).willReturn(List.of(DEFAULT_FLIGHT_VIEW));
         mockMvc.perform(get("/flights/search")
                 .param("date", DEFAULT_DATE)
