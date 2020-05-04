@@ -1,7 +1,6 @@
 package br.com.caelum.clines.api.flights;
 
 import br.com.caelum.clines.api.locations.LocationView;
-import br.com.caelum.clines.shared.domain.Country;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.springframework.http.ResponseEntity.created;
@@ -42,16 +40,19 @@ public class FlightController {
     }
 
     @GetMapping("/search")
-    ResponseEntity<?> search(@RequestParam(name = "date") String date,
-                             @RequestParam("country") String country,
-                             @RequestParam("state") String state,
-                             @RequestParam("city") String city) {
+    ResponseEntity<?> search(@RequestParam(name = "date", required = false)
+                             @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate date,
+                             @RequestParam(name = "country", required = false) String country,
+                             @RequestParam(name = "state", required = false) String state,
+                             @RequestParam(name = "city", required = false) String city) {
         LocationView location = new LocationView(country, state, city);
-        List<FlightView> fligthts = services.searchBy(parseDate(date), location);
+
+        List<FlightView> fligthts = services.searchBy(parseToLocalDateTime(date), location);
         return ResponseEntity.ok(fligthts);
     }
 
-    private LocalDateTime parseDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy")).atStartOfDay();
+    private LocalDateTime parseToLocalDateTime(LocalDate date) {
+        return date != null ? date.atStartOfDay() : null;
     }
+
 }

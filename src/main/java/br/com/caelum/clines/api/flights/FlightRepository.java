@@ -19,7 +19,7 @@ public interface FlightRepository extends Repository<Flight, Long> {
             " INNER JOIN f.departure as d " +
             " INNER JOIN d.airport as a " +
             " INNER JOIN a.location as l " +
-            " where (:date is null or d.time = :date)" +
+            " where (cast(:date as date) is null or d.time = :date)" +
             " and (:country is null or l.country = :country)" +
             " and (:state is null or l.state = :state)" +
             " and (:city is null or l.city = :city)")
