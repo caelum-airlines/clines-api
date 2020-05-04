@@ -10,6 +10,8 @@ import org.springframework.test.context.TestPropertySource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -82,5 +84,28 @@ class PromotionalCodeRepositoryTest {
         var list = repository.findAll();
 
         assertThat(list.size(), equalTo(0));
+    }
+
+    @Test
+    void save_changePromotionalCodeData() {
+        var promotionalCode = builder.getDomain("CODE");
+        entityManager.persist(promotionalCode);
+
+        var updatePromotionalCode = new PromotionalCode(
+                promotionalCode.getId(),
+                "OUTRO_CODE",
+                LocalDate.now().plusYears(1),
+                LocalDate.now().plusYears(2),
+                "OUTRA DESCRIPTION",
+                50
+        );
+
+        var saved = repository.save(updatePromotionalCode);
+
+        assertThat(saved.getCode(), equalTo(updatePromotionalCode.getCode()));
+        assertThat(saved.getStartDate(), equalTo(updatePromotionalCode.getStartDate()));
+        assertThat(saved.getExpirationDate(), equalTo(updatePromotionalCode.getExpirationDate()));
+        assertThat(saved.getDescription(), equalTo(updatePromotionalCode.getDescription()));
+        assertThat(saved.getDiscount(), equalTo(updatePromotionalCode.getDiscount()));
     }
 }
