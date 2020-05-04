@@ -40,7 +40,6 @@ public class Flight {
     @JoinColumn(name = "arrival_id")
     private Waypoint arrival;
 
-
     @NotNull
     @ManyToOne
     @JoinColumn(name = "aircraft_id")

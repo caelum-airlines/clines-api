@@ -1,9 +1,12 @@
 package br.com.caelum.clines.api.flights;
 
+import br.com.caelum.clines.api.locations.LocationView;
 import br.com.caelum.clines.shared.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -32,5 +35,12 @@ public class FlightService {
         repository.save(flight);
 
         return flight.getId();
+    }
+
+    public List<FlightView> searchBy(LocalDateTime date, LocationView location) {
+        return repository.findAllBy(date, location.getCountry(), location.getState(), location.getCity())
+                .stream()
+                .map(viewFactory::factory)
+                .collect(toList());
     }
 }

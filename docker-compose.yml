@@ -6,3 +6,5 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: clines
+    ports:
+      - "5432:5432"
