@@ -1,16 +1,14 @@
 package contracts.locations
 
-import br.com.caelum.clines.shared.domain.Country
 import org.springframework.cloud.contract.spec.Contract
 
 final BASE_URL = "locations"
-
 final EXISTING_LOCATION_ID = 123
 final NON_EXISTING_LOCATION_ID = 456
 
 final EXISTING_LOCATION = [
         "id"     : 123,
-        "country": Country.BR.name(),
+        "country": "Brazil",
         "state"  : "Rio Grande do Sul",
         "city"   : "Porto Alegre"
 ]
@@ -82,29 +80,27 @@ final EXISTING_LOCATION = [
                 headers {
                     contentType applicationJson()
                 }
-
                 body(
                         "country": "Brazil",
                         "state": "Rio Grande do Sul",
                         "city": "Caxias do Sul"
                 )
+            }
+            response {
+                status CREATED()
 
-                response {
-                    status CREATED()
+                headers {
+                    header(location(), "${BASE_URL}/${NON_EXISTING_LOCATION_ID}")
+                }
 
-                    headers {
-                        header(location(), "/${BASE_URL}/${NON_EXISTING_LOCATION_ID}")
-                    }
-
-                    bodyMatchers {
-                        jsonPath('$', byRegex('^$'))
-                    }
+                bodyMatchers {
+                    jsonPath('$', byRegex('^$'))
                 }
             }
         },
 
         Contract.make {
-            name "should return 400 when try to register new location without country, state or city"
+            name "should return 400 when try to register new location without country state or city"
 
             request {
                 method POST()
@@ -130,9 +126,9 @@ final EXISTING_LOCATION = [
 
                 body(
                         "errors": [
-                                ["field": "country", "message": "must not be null/blank"],
-                                ["field": "state", "message": "must not be null/blank"],
-                                ["field": "city", "message": "must not be null/blank"],
+                                ["field": "country", "message": "must not be null"],
+                                ["field": "state", "message": "must not be null"],
+                                ["field": "city", "message": "must not be null"],
                         ]
                 )
 
