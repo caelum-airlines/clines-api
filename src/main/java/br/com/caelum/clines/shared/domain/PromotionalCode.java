@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -22,10 +22,10 @@ public class PromotionalCode {
     private String code;
 
     @NotNull
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
     @NotNull
     private String description;
@@ -33,7 +33,7 @@ public class PromotionalCode {
     @NotNull
     private Integer discount;
 
-    public PromotionalCode(String code, Date startDate, Date expirationDate, String description, int discount) {
+    public PromotionalCode(String code, LocalDate startDate, LocalDate expirationDate, String description, int discount) {
         this.code = code;
         this.startDate = startDate;
         this.expirationDate = expirationDate;

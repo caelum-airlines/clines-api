@@ -9,7 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,10 +29,8 @@ class PromotionalCodeRepositoryTest {
 
     @Test
     void shouldSaveNewPromotionalCode() {
-        var calendar = Calendar.getInstance();
-        var start = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        var expiration = calendar.getTime();
+        var start = LocalDate.now();
+        var expiration = LocalDate.now().plusMonths(1);
 
         var promotionalCode = new PromotionalCode("CODE", start, expiration, "DESCRIPTION", 10);
 

@@ -13,8 +13,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
-
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -46,10 +45,8 @@ public class PromotionalCodeControllerTest {
 
     @Test
     public void shouldReturnHttpStatus409IfCodeAlreadyExists() throws Exception {
-        var calendar = Calendar.getInstance();
-        var start = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        var expiration = calendar.getTime();
+        var start = LocalDate.now();
+        var expiration = LocalDate.now().plusMonths(1);
         var promotionalCode = new PromotionalCode("B2CC71", start, expiration, "DESCRIPTION", 10);
         entityManager.persist(promotionalCode);
 

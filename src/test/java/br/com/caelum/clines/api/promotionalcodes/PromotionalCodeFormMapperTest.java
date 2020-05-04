@@ -2,7 +2,7 @@ package br.com.caelum.clines.api.promotionalcodes;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -10,10 +10,8 @@ import static org.hamcrest.Matchers.equalTo;
 class PromotionalCodeFormMapperTest {
     @Test
     void shouldReturnPromotionalCode() {
-        var calendar = Calendar.getInstance();
-        var start = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        var expiration = calendar.getTime();
+        var start = LocalDate.now();
+        var expiration = LocalDate.now().plusMonths(1);
 
         var form = new PromotionalCodeForm("CODE", start, expiration, "DESCRIPTION", 10);
 

@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,10 +31,9 @@ public class PromotionalCodeServiceTest {
 
     @Test
     void shouldCreateNewPromotionalCode() {
-        var calendar = Calendar.getInstance();
-        var start = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        var expiration = calendar.getTime();
+        var start = LocalDate.now();
+        var expiration = LocalDate.now().plusMonths(1);
+
         var form = new PromotionalCodeForm("CODE", start, expiration, "DESCRIPTION", 10);
         var promotionalCode = new PromotionalCode(1L, "CODE", start, expiration, "DESCRIPTION", 10);
 
@@ -50,10 +49,9 @@ public class PromotionalCodeServiceTest {
 
     @Test
     void shouldThrowResourceAlreadyExistsIfPromotionalCodeAlreadyExists() {
-        var calendar = Calendar.getInstance();
-        var start = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        var expiration = calendar.getTime();
+        var start = LocalDate.now();
+        var expiration = LocalDate.now().plusMonths(1);
+
         var form = new PromotionalCodeForm("CODE", start, expiration, "DESCRIPTION", 10);
         var promotionalCode = new PromotionalCode(1L, "CODE", start, expiration, "DESCRIPTION", 10);
 
