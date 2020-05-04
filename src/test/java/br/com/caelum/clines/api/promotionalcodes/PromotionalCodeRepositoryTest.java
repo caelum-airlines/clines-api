@@ -28,7 +28,7 @@ class PromotionalCodeRepositoryTest {
     private EntityManager entityManager;
 
     @Test
-    void shouldSaveNewPromotionalCode() {
+    void save_saveNewPromotionalCode() {
         var start = LocalDate.now();
         var expiration = LocalDate.now().plusMonths(1);
 
@@ -50,5 +50,48 @@ class PromotionalCodeRepositoryTest {
         assertThat(newObject.getExpirationDate(), equalTo(expiration));
         assertThat(newObject.getDescription(), equalTo("DESCRIPTION"));
         assertThat(newObject.getDiscount(), equalTo(10));
+    }
+
+    @Test
+    void findAll_returnListElements() {
+        var promotionalCode1 = getPromotionalCode("CODE1");
+        entityManager.persist(promotionalCode1);
+
+        var promotionalCode2 = getPromotionalCode("CODE2");
+        entityManager.persist(promotionalCode2);
+
+        var list = repository.findAll();
+
+        assertThat(list.size(), equalTo(2));
+
+        var firstItem = list.get(0);
+        assertThat(firstItem.getCode(), equalTo("CODE1"));
+        assertThat(firstItem.getStartDate(), equalTo(promotionalCode1.getStartDate()));
+        assertThat(firstItem.getExpirationDate(), equalTo(promotionalCode1.getExpirationDate()));
+        assertThat(firstItem.getDescription(), equalTo("DESCRIPTION"));
+        assertThat(firstItem.getDiscount(), equalTo(10));
+
+        var secondItem = list.get(1);
+        assertThat(secondItem.getCode(), equalTo("CODE2"));
+        assertThat(secondItem.getStartDate(), equalTo(promotionalCode2.getStartDate()));
+        assertThat(secondItem.getExpirationDate(), equalTo(promotionalCode2.getExpirationDate()));
+        assertThat(secondItem.getDescription(), equalTo("DESCRIPTION"));
+        assertThat(secondItem.getDiscount(), equalTo(10));
+    }
+
+    private PromotionalCode getPromotionalCode(String code) {
+        var calendar = Calendar.getInstance();
+        var start = calendar.getTime();
+        calendar.add(Calendar.MONTH, 1);
+        var expiration = calendar.getTime();
+
+        return new PromotionalCode(code, start, expiration, "DESCRIPTION", 10);
+    }
+
+    @Test
+    void findAll_returnEmptyList() {
+        var list = repository.findAll();
+
+        assertThat(list.size(), equalTo(0));
     }
 }
