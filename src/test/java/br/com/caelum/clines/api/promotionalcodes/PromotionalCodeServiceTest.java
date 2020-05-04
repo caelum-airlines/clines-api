@@ -1,6 +1,5 @@
 package br.com.caelum.clines.api.promotionalcodes;
 
-import br.com.caelum.clines.shared.domain.PromotionalCode;
 import br.com.caelum.clines.shared.exceptions.ResourceAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,13 +27,12 @@ public class PromotionalCodeServiceTest {
     @Spy
     private PromotionalCodeFormMapper formMapper;
 
-    @Test
-    void shouldCreateNewPromotionalCode() {
-        var start = LocalDate.now();
-        var expiration = LocalDate.now().plusMonths(1);
+    private PromotionalCodeBuilder builder = new PromotionalCodeBuilder();
 
-        var form = new PromotionalCodeForm("CODE", start, expiration, "DESCRIPTION", 10);
-        var promotionalCode = new PromotionalCode(1L, "CODE", start, expiration, "DESCRIPTION", 10);
+    @Test
+    void createPromotionalCodeBy_newPromotionalCode() {
+        var form = builder.getForm();
+        var promotionalCode = builder.getDomain(form.getStartDate(), form.getExpirationDate());
 
         given(repository.findByCode(any())).willReturn(Optional.empty());
         given(repository.save(any())).willReturn(promotionalCode);
@@ -48,12 +45,9 @@ public class PromotionalCodeServiceTest {
     }
 
     @Test
-    void shouldThrowResourceAlreadyExistsIfPromotionalCodeAlreadyExists() {
-        var start = LocalDate.now();
-        var expiration = LocalDate.now().plusMonths(1);
-
-        var form = new PromotionalCodeForm("CODE", start, expiration, "DESCRIPTION", 10);
-        var promotionalCode = new PromotionalCode(1L, "CODE", start, expiration, "DESCRIPTION", 10);
+    void createPromotionalCodeBy_throwErrorIfAlreadyExists() {
+        var form = builder.getForm();
+        var promotionalCode = builder.getDomain();
 
         given(repository.findByCode(any())).willReturn(Optional.of(promotionalCode));
 

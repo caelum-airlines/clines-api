@@ -9,7 +9,6 @@ import org.springframework.test.context.TestPropertySource;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -27,12 +26,12 @@ class PromotionalCodeRepositoryTest {
     @Autowired
     private EntityManager entityManager;
 
+    private PromotionalCodeBuilder builder = new PromotionalCodeBuilder();
+
     @Test
     void save_saveNewPromotionalCode() {
-        var start = LocalDate.now();
-        var expiration = LocalDate.now().plusMonths(1);
-
-        var promotionalCode = new PromotionalCode("CODE", start, expiration, "DESCRIPTION", 10);
+        Long id = null;
+        var promotionalCode = builder.getDomain(id);
 
         assertNull(promotionalCode.getId());
 
@@ -45,19 +44,19 @@ class PromotionalCodeRepositoryTest {
                 promotionalCode.getId()
         );
 
-        assertThat(newObject.getCode(), equalTo("CODE"));
-        assertThat(newObject.getStartDate(), equalTo(start));
-        assertThat(newObject.getExpirationDate(), equalTo(expiration));
-        assertThat(newObject.getDescription(), equalTo("DESCRIPTION"));
-        assertThat(newObject.getDiscount(), equalTo(10));
+        assertThat(newObject.getCode(), equalTo(promotionalCode.getCode()));
+        assertThat(newObject.getStartDate(), equalTo(promotionalCode.getStartDate()));
+        assertThat(newObject.getExpirationDate(), equalTo(promotionalCode.getExpirationDate()));
+        assertThat(newObject.getDescription(), equalTo(promotionalCode.getDescription()));
+        assertThat(newObject.getDiscount(), equalTo(promotionalCode.getDiscount()));
     }
 
     @Test
     void findAll_returnListElements() {
-        var promotionalCode1 = getPromotionalCode("CODE1");
+        var promotionalCode1 = builder.getDomain(null, "CODE1");
         entityManager.persist(promotionalCode1);
 
-        var promotionalCode2 = getPromotionalCode("CODE2");
+        var promotionalCode2 = builder.getDomain(null, "CODE2");
         entityManager.persist(promotionalCode2);
 
         var list = repository.findAll();
@@ -77,15 +76,6 @@ class PromotionalCodeRepositoryTest {
         assertThat(secondItem.getExpirationDate(), equalTo(promotionalCode2.getExpirationDate()));
         assertThat(secondItem.getDescription(), equalTo("DESCRIPTION"));
         assertThat(secondItem.getDiscount(), equalTo(10));
-    }
-
-    private PromotionalCode getPromotionalCode(String code) {
-        var calendar = Calendar.getInstance();
-        var start = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        var expiration = calendar.getTime();
-
-        return new PromotionalCode(code, start, expiration, "DESCRIPTION", 10);
     }
 
     @Test
