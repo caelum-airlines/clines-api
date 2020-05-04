@@ -40,8 +40,15 @@ class FlightServiceTest {
     private final LocationView DEFAULT_LOCATION = new LocationView(DEFAULT_COUNTRY, DEFAULT_STATE, DEFAULT_CITY);
 
     @Test
-    void searchBy() {
+    void shouldReturnEmptyListWhenNotFoundFlights() {
         given(flightRepository.findAllBy(DEFAULT_DATE_TIME, DEFAULT_COUNTRY, DEFAULT_STATE, DEFAULT_CITY)).willReturn(Collections.emptyList());
+        List<FlightView> flights = flightService.searchBy(DEFAULT_DATE_TIME, DEFAULT_LOCATION);
+        assertTrue(flights.isEmpty());
+    }
+
+    @Test
+    void shouldReturnFlightWhenFoundFlights() {
+        given(flightRepository.findAllBy(DEFAULT_DATE_TIME, DEFAULT_COUNTRY, DEFAULT_STATE, DEFAULT_CITY)).willReturn(List.of());
         List<FlightView> flights = flightService.searchBy(DEFAULT_DATE_TIME, DEFAULT_LOCATION);
         assertTrue(flights.isEmpty());
     }

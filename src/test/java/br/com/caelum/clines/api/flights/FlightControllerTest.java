@@ -49,7 +49,6 @@ class FlightControllerTest {
         mockMvc = standaloneSetup(flightController).build();
     }
 
-
     @Test
     void shouldReturnEmptyWhenNotFoundFlight() throws Exception {
         given(flightService.searchBy(DEFAULT_DATE_TIME, DEFAULT_LOCATION)).willReturn(Collections.emptyList());
