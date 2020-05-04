@@ -1,5 +1,6 @@
-JAR ?= ./target/clines-api-0.0.1-SNAPSHOT.jar
+JAR ?= ./target/clines-api-0.0.7-SNAPSHOT.jar
 ENV ?= local
+HEROKU_APP_NAME=clines-api
 
 package:
 	$(info Packaging application)
@@ -8,6 +9,12 @@ package:
 docker/build: package $(JAR)
 	$(info Building docker image)
 	@ docker image build --build-arg JAR=$(JAR) -t caelum/clines-api:latest .
+
+deploy: _build-docker-image _login-with-registry
+	@ docker tag clines-api  registry.heroku.com/$(HEROKU_APP_NAME)/web:$$TRAVIS_BUILD_ID
+	@ docker image push registry.heroku.com/$(HEROKU_APP_NAME)/web:$$TRAVIS_BUILD_ID
+	@ make _deploy-on-heroku IMAGE_ID=$$(docker image inspect registry.heroku.com/$(HEROKU_APP_NAME)/web:$$TRAVIS_BUILD_ID -f {{.Id}} )
+
 
 docker/ls:
 	@ make _docker-compose stage=local command='ps'
@@ -36,3 +43,17 @@ _docker-compose:
 ifeq ($(ENV), local)
 	@ docker-compose -f docker-compose.yml -f docker-compose/compose-$(stage).yml $(command)
 endif
+
+_build-docker-image: package
+	@ docker image build --build-arg JAR=$(JAR) -t clines-api .
+
+_login-with-registry:
+	@ docker login --username=_ --password=$$DOCKER_REGISTRY_TOKEN registry.heroku.com
+
+_deploy-on-heroku:
+	@ curl -X PATCH \
+			-H "Authorization: Bearer $$DOCKER_REGISTRY_TOKEN" \
+			-H "Content-Type: application/json" \
+			-H "Accept:application/vnd.heroku+json; version=3.docker-releases" \
+			-d '{ "updates": [{"type": "web",  "docker_image": "$(IMAGE_ID)"}] }' \
+			https://api.heroku.com/apps/$(HEROKU_APP_NAME)/formation
