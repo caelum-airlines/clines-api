@@ -1,6 +1,6 @@
 JAR ?= ./target/clines-api-0.0.7-SNAPSHOT.jar
 ENV ?= local
-HEROKU_APP_NAME=clines-api
+HEROKU_APP_NAME=caelum-airlines-api
 
 package:
 	$(info Packaging application)
