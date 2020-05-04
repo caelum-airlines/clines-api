@@ -7,14 +7,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class PromotionalCodeFormMapper implements Mapper<PromotionalCodeForm, PromotionalCode> {
 
-    @Override
-    public PromotionalCode map(PromotionalCodeForm form) {
+    public PromotionalCode map(Long id, PromotionalCodeForm form) {
         return new PromotionalCode(
+                id,
                 form.getCode(),
                 form.getStartDate(),
                 form.getExpirationDate(),
                 form.getDescription(),
                 form.getDiscount()
         );
+    }
+
+    @Override
+    public PromotionalCode map(PromotionalCodeForm form) {
+        return map(null, form);
     }
 }

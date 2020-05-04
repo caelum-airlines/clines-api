@@ -9,6 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+
 import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,12 +28,11 @@ class PromotionalCodeRepositoryTest {
     @Autowired
     private EntityManager entityManager;
 
-    @Test
-    void shouldSaveNewPromotionalCode() {
-        var start = LocalDate.now();
-        var expiration = LocalDate.now().plusMonths(1);
+    private PromotionalCodeBuilder builder = new PromotionalCodeBuilder();
 
-        var promotionalCode = new PromotionalCode("CODE", start, expiration, "DESCRIPTION", 10);
+    @Test
+    void save_saveNewPromotionalCode() {
+        var promotionalCode = builder.getDomain();
 
         assertNull(promotionalCode.getId());
 
@@ -45,10 +45,67 @@ class PromotionalCodeRepositoryTest {
                 promotionalCode.getId()
         );
 
-        assertThat(newObject.getCode(), equalTo("CODE"));
-        assertThat(newObject.getStartDate(), equalTo(start));
-        assertThat(newObject.getExpirationDate(), equalTo(expiration));
-        assertThat(newObject.getDescription(), equalTo("DESCRIPTION"));
-        assertThat(newObject.getDiscount(), equalTo(10));
+        assertThat(newObject.getCode(), equalTo(promotionalCode.getCode()));
+        assertThat(newObject.getStartDate(), equalTo(promotionalCode.getStartDate()));
+        assertThat(newObject.getExpirationDate(), equalTo(promotionalCode.getExpirationDate()));
+        assertThat(newObject.getDescription(), equalTo(promotionalCode.getDescription()));
+        assertThat(newObject.getDiscount(), equalTo(promotionalCode.getDiscount()));
+    }
+
+    @Test
+    void findAll_returnListElements() {
+        var promotionalCode1 = builder.getDomain("CODE1");
+        entityManager.persist(promotionalCode1);
+
+        var promotionalCode2 = builder.getDomain("CODE2");
+        entityManager.persist(promotionalCode2);
+
+        var list = repository.findAll();
+
+        assertThat(list.size(), equalTo(2));
+
+        var firstItem = list.get(0);
+        assertThat(firstItem.getCode(), equalTo("CODE1"));
+        assertThat(firstItem.getStartDate(), equalTo(promotionalCode1.getStartDate()));
+        assertThat(firstItem.getExpirationDate(), equalTo(promotionalCode1.getExpirationDate()));
+        assertThat(firstItem.getDescription(), equalTo("DESCRIPTION"));
+        assertThat(firstItem.getDiscount(), equalTo(10));
+
+        var secondItem = list.get(1);
+        assertThat(secondItem.getCode(), equalTo("CODE2"));
+        assertThat(secondItem.getStartDate(), equalTo(promotionalCode2.getStartDate()));
+        assertThat(secondItem.getExpirationDate(), equalTo(promotionalCode2.getExpirationDate()));
+        assertThat(secondItem.getDescription(), equalTo("DESCRIPTION"));
+        assertThat(secondItem.getDiscount(), equalTo(10));
+    }
+
+    @Test
+    void findAll_returnEmptyList() {
+        var list = repository.findAll();
+
+        assertThat(list.size(), equalTo(0));
+    }
+
+    @Test
+    void save_changePromotionalCodeData() {
+        var promotionalCode = builder.getDomain("CODE");
+        entityManager.persist(promotionalCode);
+
+        var updatePromotionalCode = new PromotionalCode(
+                promotionalCode.getId(),
+                "OUTRO_CODE",
+                LocalDate.now().plusYears(1),
+                LocalDate.now().plusYears(2),
+                "OUTRA DESCRIPTION",
+                50
+        );
+
+        var saved = repository.save(updatePromotionalCode);
+
+        assertThat(saved.getCode(), equalTo(updatePromotionalCode.getCode()));
+        assertThat(saved.getStartDate(), equalTo(updatePromotionalCode.getStartDate()));
+        assertThat(saved.getExpirationDate(), equalTo(updatePromotionalCode.getExpirationDate()));
+        assertThat(saved.getDescription(), equalTo(updatePromotionalCode.getDescription()));
+        assertThat(saved.getDiscount(), equalTo(updatePromotionalCode.getDiscount()));
     }
 }
