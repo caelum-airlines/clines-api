@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,6 +27,9 @@ public class PromotionalCodeServiceTest {
 
     @Spy
     private PromotionalCodeFormMapper formMapper;
+
+    @Spy
+    private PromotionalCodeViewMapper viewMapper;
 
     private PromotionalCodeBuilder builder = new PromotionalCodeBuilder();
 
@@ -58,5 +62,35 @@ public class PromotionalCodeServiceTest {
 
         then(repository).should(only()).findByCode(any());
         then(repository).should(never()).save(any());
+    }
+
+    @Test
+    void findAll_listOfPromotionalCode() {
+        var promotionalCode1 = builder.getDomain();
+        var promotionalCode2 = builder.getDomain();
+
+        given(repository.findAll()).willReturn(List.of(promotionalCode1, promotionalCode2));
+
+        var list = service.listAllPromotionalCodes();
+        var view1 = list.get(0);
+        var view2 = list.get(1);
+
+        then(repository).should(only()).findAll();
+        then(viewMapper).should().map(promotionalCode1);
+        then(viewMapper).should().map(promotionalCode2);
+
+        assertEquals(list.size(), 2);
+
+        assertEquals(promotionalCode1.getCode(), view1.getCode());
+        assertEquals(promotionalCode1.getDescription(), view1.getDescription());
+        assertEquals(promotionalCode1.getDiscount(), view1.getDiscount());
+        assertEquals(promotionalCode1.getStartDate(), view1.getStartDate());
+        assertEquals(promotionalCode1.getExpirationDate(), view1.getExpirationDate());
+
+        assertEquals(promotionalCode2.getCode(), view2.getCode());
+        assertEquals(promotionalCode2.getDescription(), view2.getDescription());
+        assertEquals(promotionalCode2.getDiscount(), view2.getDiscount());
+        assertEquals(promotionalCode2.getStartDate(), view2.getStartDate());
+        assertEquals(promotionalCode2.getExpirationDate(), view2.getExpirationDate());
     }
 }
