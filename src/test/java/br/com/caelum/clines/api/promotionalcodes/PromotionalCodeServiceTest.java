@@ -1,5 +1,6 @@
 package br.com.caelum.clines.api.promotionalcodes;
 
+import br.com.caelum.clines.shared.domain.PromotionalCode;
 import br.com.caelum.clines.shared.exceptions.ResourceAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,7 +67,7 @@ public class PromotionalCodeServiceTest {
     }
 
     @Test
-    void findAll_listOfPromotionalCode() {
+    void listAllPromotionalCodes_listOfPromotionalCode() {
         var promotionalCode1 = builder.getDomain();
         var promotionalCode2 = builder.getDomain();
 
@@ -92,5 +94,29 @@ public class PromotionalCodeServiceTest {
         assertEquals(promotionalCode2.getDiscount(), view2.getDiscount());
         assertEquals(promotionalCode2.getStartDate(), view2.getStartDate());
         assertEquals(promotionalCode2.getExpirationDate(), view2.getExpirationDate());
+    }
+
+    @Test
+    void updatePromotionalCode_updatePromotionalCode() {
+        var promotionalCode = builder.getDomain();
+        var form = new PromotionalCodeForm(
+                promotionalCode.getCode(),
+                LocalDate.now().plusYears(1),
+                LocalDate.now().plusYears(2),
+                "OUTRA DESCRIPTION",
+                50
+        );
+
+        given(repository.findByCode(promotionalCode.getCode())).willReturn(Optional.of(promotionalCode));
+        given(formMapper.map(promotionalCode.getId(), form)).willReturn(promotionalCode);
+        given(repository.save(promotionalCode)).willReturn(promotionalCode);
+
+        var updatedCode = service.updatePromotionalCode(form);
+
+        then(repository).should().findByCode(promotionalCode.getCode());
+        then(repository).should().save(promotionalCode);
+        then(formMapper).should(only()).map(form);
+
+        assertEquals(updatedCode, form.getCode());
     }
 }

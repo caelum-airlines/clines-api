@@ -1,6 +1,7 @@
 package br.com.caelum.clines.api.promotionalcodes;
 
 import br.com.caelum.clines.shared.exceptions.ResourceAlreadyExistsException;
+import br.com.caelum.clines.shared.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,17 @@ public class PromotionalCodeService {
         return repository.findAll().stream()
                 .map(viewMapper::map)
                 .collect(Collectors.toList());
+    }
+
+    public String updatePromotionalCode(PromotionalCodeForm form) {
+        var savedPromotionalCode = repository.findByCode(form.getCode()).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Promotional code not found");
+        });
+
+        var promotionalCode = formMapper.map(savedPromotionalCode.getId(), form);
+
+        repository.save(promotionalCode);
+
+        return form.getCode();
     }
 }
