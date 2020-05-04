@@ -30,8 +30,7 @@ class PromotionalCodeRepositoryTest {
 
     @Test
     void save_saveNewPromotionalCode() {
-        Long id = null;
-        var promotionalCode = builder.getDomain(id);
+        var promotionalCode = builder.getDomain();
 
         assertNull(promotionalCode.getId());
 
@@ -53,10 +52,10 @@ class PromotionalCodeRepositoryTest {
 
     @Test
     void findAll_returnListElements() {
-        var promotionalCode1 = builder.getDomain(null, "CODE1");
+        var promotionalCode1 = builder.getDomain("CODE1");
         entityManager.persist(promotionalCode1);
 
-        var promotionalCode2 = builder.getDomain(null, "CODE2");
+        var promotionalCode2 = builder.getDomain("CODE2");
         entityManager.persist(promotionalCode2);
 
         var list = repository.findAll();

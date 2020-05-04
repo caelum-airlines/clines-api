@@ -5,32 +5,34 @@ import br.com.caelum.clines.shared.domain.PromotionalCode;
 import java.time.LocalDate;
 
 public class PromotionalCodeBuilder {
-    Long id = 1L;
+    Long id = null;
     String code = "CODE";
     LocalDate start = LocalDate.now();
     LocalDate expiration = LocalDate.now().plusMonths(1);
+    String description = "DESCRIPTION";
+    Integer discount = 10;
 
     public PromotionalCode getDomain() {
         return getDomain(start, expiration);
     }
 
     public PromotionalCode getDomain(LocalDate start, LocalDate expiration) {
-        return getDomain(id, code, start, expiration);
+        return getDomain(code, start, expiration);
     }
 
-    public PromotionalCode getDomain(Long id, String code) {
-        return getDomain(id, code, start, expiration);
+    public PromotionalCode getDomain(String code) {
+        return getDomain(code, start, expiration);
     }
 
-    public PromotionalCode getDomain(Long id) {
-        return getDomain(id, code, start, expiration);
-    }
-
-    public PromotionalCode getDomain(Long id, String code, LocalDate start, LocalDate expiration) {
-        return new PromotionalCode(id, code, start, expiration, "DESCRIPTION", 10);
+    public PromotionalCode getDomain(String code, LocalDate start, LocalDate expiration) {
+        return new PromotionalCode(id, code, start, expiration, description, discount);
     }
 
     public PromotionalCodeForm getForm() {
-        return new PromotionalCodeForm("CODE", start, expiration, "DESCRIPTION", 10);
+        return new PromotionalCodeForm(code, start, expiration, description, discount);
+    }
+
+    public PromotionalCodeView getView() {
+        return new PromotionalCodeView(code, start, expiration, description, discount);
     }
 }

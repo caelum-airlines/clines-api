@@ -22,9 +22,11 @@ public class PromotionalCode {
     private String code;
 
     @NotNull
+    @Column(columnDefinition = "DATE")
     private LocalDate startDate;
 
     @NotNull
+    @Column(columnDefinition = "DATE")
     private LocalDate expirationDate;
 
     @NotNull
