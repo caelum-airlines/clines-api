@@ -14,4 +14,10 @@ public class LocationView {
     private String state;
 
     private String city;
+
+    public LocationView(String country, String state, String city) {
+        this.country = country;
+        this.state = state;
+        this.city = city;
+    }
 }
